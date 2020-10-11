@@ -1,0 +1,31 @@
+{
+  "name": "Stay focused!",
+  "namespace": "Yale\\stayFocused",
+  "description": "Repositions the data entry form to last field entered, after Save & Stay clicked.",
+  "authors": [
+    {
+      "name": "Peter Charpentier",
+      "email": "redcap@yale.edu",
+      "institution": "Yale University",
+      "company": "CRI Web Tools LLC"
+    }
+  ],
+  "versions": [
+    {
+      "1.0.0": "Oct 8, 2020 - initial distribution"
+    }
+  ],
+  "permissions": [
+    "redcap_data_entry_form"
+  ],
+  "links": {
+  },
+  "no-auth-pages": [
+  ],
+  "system-settings": [
+    ],
+  "project-settings": [
+  ],
+  "crons":[
+  ]
+}
