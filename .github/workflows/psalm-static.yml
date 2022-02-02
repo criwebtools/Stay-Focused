@@ -1,6 +1,12 @@
+
 name: Psalm Static analysis
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master ]
 
 jobs:
   psalm:
@@ -12,3 +18,11 @@ jobs:
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
+        with:
+           security_analysis: true
+           report_file: results.sarif
+           
+      - name: Upload Security Analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+           sarif_file: results.sarif
