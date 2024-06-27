@@ -1,7 +1,10 @@
 {
   "name": "Stay focused!",
+
   "namespace": "Yale\\stayFocused",
+
   "description": "Repositions the data entry form to last field entered, after Save & Stay clicked.",
+
   "authors": [
     {
       "name": "Peter Charpentier",
@@ -10,22 +13,24 @@
       "company": "CRI Web Tools LLC"
     }
   ],
+
   "versions": [
+    {
+      "1.1.0": "July 27, 2024 - major bug fix, minor feature enhancements",
+      "changelog": "Fixes bug where the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
+    },
     {
       "1.0.0": "Oct 8, 2020 - initial distribution"
     }
   ],
-  "permissions": [
-    "redcap_data_entry_form"
-  ],
-  "links": {
-  },
-  "no-auth-pages": [
-  ],
-  "system-settings": [
-    ],
-  "project-settings": [
-  ],
-  "crons":[
-  ]
+
+  "prefix": "ydcclib_stay_focused",
+
+  "compatibility": {
+    "php-version-min": "7.4",
+    "redcap-version-min": "13.4.0"
+},
+
+"framework-version": 12
+
 }
