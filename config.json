@@ -16,7 +16,7 @@
 
   "versions": [
     {
-      "1.1.0": "July 27, 2024 - major bug fix, minor feature enhancements",
+      "1.0.1": "June 27, 2024 - major bug fix, minor refactoring",
       "changelog": "Fixes bug where the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
     },
     {
@@ -29,8 +29,7 @@
   "compatibility": {
     "php-version-min": "7.4",
     "redcap-version-min": "13.4.0"
-},
+  },
 
-"framework-version": 12
-
+  "framework-version": 12
 }
