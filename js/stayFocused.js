@@ -166,12 +166,16 @@
    $( document ).ready(function(){
 
       // add listeners to form fields and the Save & Stay buttons
+      
       addListeners();
 
       // did Save & Stay leave a cookie for us?
-      if ((lastFieldThatHadFocus = getLastFieldThatHadFocus ())) {
 
-         // remove the cookie
+      lastFieldThatHadFocus = getLastFieldThatHadFocus()
+
+      if ( lastFieldThatHadFocus ) {
+
+         // remove the 'cookie'
          removeLastFieldThatHadFocus();
 
          // scroll and mark the boundary
