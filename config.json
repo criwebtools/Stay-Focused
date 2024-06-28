@@ -5,6 +5,10 @@
 
   "description": "Repositions the data entry form to last field entered, after Save & Stay clicked.",
 
+  "documentation": "https://criwebtools.github.io/Stay-Focused/",
+
+  "prefix": "ydcclib_stay_focused",
+
   "authors": [
     {
       "name": "Peter Charpentier",
@@ -23,8 +27,6 @@
       "1.0.0": "Oct 8, 2020 - initial distribution"
     }
   ],
-
-  "prefix": "ydcclib_stay_focused",
 
   "compatibility": {
     "php-version-min": "7.4",
