@@ -2,7 +2,7 @@
 
    // ECMAScript 5 or higher
 
-   var lastFieldThatHadFocus = null;
+   let lastFieldThatHadFocus = null;
    const SAVEANDSTAYCOOKIENAME = "__stayFocused__";
    const COOKIEEXPIRATION = 120; // seconds
 
@@ -32,11 +32,11 @@
 
    }
 
-   function storeLastFieldThatHadFocus( element ){
+   function setLastFieldThatHadFocus( element ){
 
       lastFieldThatHadFocus = element.closest('tr[sq_id]').attr('sq_id');
 
-      console.log('storeLastFieldThatHadFocus', lastFieldThatHadFocus);
+      console.log('setLastFieldThatHadFocus ', lastFieldThatHadFocus);
    }
 
    function addListeners() {
@@ -54,7 +54,7 @@
        * 
        * The $nonReservedRows jQuery object is a collection of all data entry rows having the 'sq_id' attribute for which the value does not start with '__' or '{'.
        */
-      $nonReservedRows = $('tr[sq_id]:not([sq_id^="__"]):not([sq_id^="{"])');
+      const $nonReservedRows = $('tr[sq_id]:not([sq_id^="__"]):not([sq_id^="{"])');
 
       /*
        * clickable elements:
@@ -67,7 +67,7 @@
       //$('tr[sq_id] div.ui-slider, tr[sq_id] span.ui-slider-handle, tr[sq_id] button, tr[sq_id] a.fileuploadlink, tr[sq_id] img.ui-datepicker-trigger').on('click', function () {
       $nonReservedRows.find('div.ui-slider, span.ui-slider-handle, button, a.fileuploadlink, img.ui-datepicker-trigger').on('click', function () {
 
-         storeLastFieldThatHadFocus( $(this) );
+         setLastFieldThatHadFocus( $(this) );
       });
 
       /*
@@ -82,7 +82,7 @@
       $nonReservedRows.find('input:not([readonly]), textarea, select').on('change', function () {
 
          if ( $(this).val() ) {
-            storeLastFieldThatHadFocus($(this));
+            setLastFieldThatHadFocus($(this));
          }
       });
 
@@ -93,10 +93,9 @@
       $('a#submit-btn-savecontinue, button#submit-btn-savecontinue').on('click', function() {
 
          /*
-          * The cookie should be erased directly upon page reload.
-          * Just in case, we give it a 2 minute lifespan to allow for a REALLY long reload.
+          * Save the last field that had focus to the localStorage 'cookie'
           */
-         storeLastFieldThatHadFocus();
+          saveLastFieldThatHadFocus();
       });
    }
 
@@ -106,23 +105,25 @@
     * It is set by save&stay, and picked up after the page reload.
     */
 
-   function storeLastFieldThatHadFocus() {
+   function  saveLastFieldThatHadFocus() {
 
-      var object = {value: lastFieldThatHadFocus, timestamp: new Date().getTime()}
+      let object = {value: lastFieldThatHadFocus, timestamp: new Date().getTime()}
       localStorage.setItem(SAVEANDSTAYCOOKIENAME, JSON.stringify(object));
    }
 
-   // hopefully this function will fail silently if any mischief ensues
-
-   function fetchLastFieldThatHadFocus() {
+   /* 
+    * Get the last field that had focus from the localStorage 'cookie'.
+    * Hopefully this function will fail silently...
+    */
+   function getLastFieldThatHadFocus () {
 
       try {
-          var json = localStorage.getItem(SAVEANDSTAYCOOKIENAME);
+          let json = localStorage.getItem(SAVEANDSTAYCOOKIENAME);
   
           // Return null if no saved item
           if (!json) return null;
   
-          var object;
+          let object;
           try {
               object = JSON.parse(json);
           } catch (e) {
@@ -130,21 +131,21 @@
               return null;
           }
   
-          var setTimestamp = object.timestamp;
+          let setTimestamp = object.timestamp;
           if (!setTimestamp) {
               console.error('No timestamp found in the saved object');
               return null;
           }
   
-          var nowTimestamp = new Date().getTime();
-          var diffSeconds = (nowTimestamp - setTimestamp) / 1000;
+          let nowTimestamp = new Date().getTime();
+          let diffSeconds = (nowTimestamp - setTimestamp) / 1000;
   
           if (isNaN(diffSeconds)) {
               console.error('Invalid timestamp difference');
               return null;
           }
   
-          console.log('fetchLastFieldThatHadFocus:', new Date(setTimestamp).toString(), new Date(nowTimestamp).toString(), diffSeconds);
+          console.log('getLastFieldThatHadFocus :', new Date(setTimestamp).toString(), new Date(nowTimestamp).toString(), diffSeconds);
   
           if (diffSeconds > COOKIEEXPIRATION) return null;
   
@@ -152,7 +153,7 @@
 
       } catch (e) {
 
-          console.error('Error in fetchLastFieldThatHadFocus:', e);
+          console.error('Error in getLastFieldThatHadFocus :', e);
           return null;
       }
    }
@@ -168,7 +169,7 @@
       addListeners();
 
       // did Save & Stay leave a cookie for us?
-      if ((lastFieldThatHadFocus = fetchLastFieldThatHadFocus())) {
+      if ((lastFieldThatHadFocus = getLastFieldThatHadFocus ())) {
 
          // remove the cookie
          removeLastFieldThatHadFocus();
