@@ -24,13 +24,13 @@ In the screen shot below, the user is conducting a telephone interview. He has b
 After completing a section of a cognitive assessment, he decides to save his work. Here is the form before he clicks
 the **Save & Stay** button: 
 
-![Form before save](assets/stay_focused_before_save.png)
+![Form before save](images/stay_focused_before_save.png)
 
 After he clicks **Save & Stay** the page refreshes as usual, but instead of
 the focus returning to the top of the form, the form scrolls
 to the last entered item and places a blue line beneath.
 
-![Form after save](assets/stay_focused_after_save.png)
+![Form after save](images/stay_focused_after_save.png)
 
 ### How it works
 Stay Focused! works by detecting non-blank data entry and clicks on special links like file upload and econsent, and remembering the field name. 
