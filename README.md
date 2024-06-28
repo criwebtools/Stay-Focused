@@ -1,10 +1,11 @@
 ![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/codeql-analysis.yml/badge.svg)
-![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/sonarcloud.yml/badge.svg)
+![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/sonarcloud.yml/badge.svg)  
 
 # Stay Focused!
 Version 1.0.1   
-June 2024  Pete Charpentier and the REDCap@Yale team  
-https://portal.redcap.yale.edu
+June 2024  
+Pete Charpentier and the REDCap@Yale team  
+https://portal.redcap.yale.edu  
 redcap@yale.edu
 
 ### What does it do?
@@ -42,5 +43,5 @@ After the page is reloaded the name of the last field is retrieved from localSto
 location, and the data entry boundary is marked with a bright blue horizontal bar.
 
 > PLEASE NOTE  
-> Stay Focused! makes certain assumptions about the REDCap data entry form user interface, which may change over time. There is a possibility that Stay Focused! and REDCap will drift apart at some point, due to changes in the REDCap UI. If Stay Focused! is not working for you, please get in touch with us at redcap@yale.edu. This version of Stay Focused! was tested on REDCap version 14.0.31.
+> Stay Focused! makes certain assumptions about the REDCap data entry form user interface, which may change over time. There is a possibility that Stay Focused! and REDCap will drift apart at some point, due to changes in the REDCap UI. If Stay Focused! is not working for you, please get in touch with us at redcap@yale.edu. This version of Stay Focused! was tested on REDCap version 14.0.31 on June 28, 2024.
 

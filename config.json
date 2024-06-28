@@ -1,9 +1,13 @@
 {
   "name": "Stay focused!",
 
+  "prefix": "ydcclib_stay_focused",
+
   "namespace": "Yale\\stayFocused",
 
   "description": "Repositions the data entry form to last field entered, after Save & Stay clicked.",
+
+  "documentation": "https://criwebtools.github.io/Stay-Focused/",
 
   "authors": [
     {
@@ -16,15 +20,13 @@
 
   "versions": [
     {
-      "1.0.1": "June 27, 2024 - major bug fix, minor refactoring",
-      "changelog": "Fixes bug where the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
+      "1.0.1": "June 28, 2024 - major bug fix, minor refactoring",
+      "changelog": "Fixes bug in which the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
     },
     {
       "1.0.0": "Oct 8, 2020 - initial distribution"
     }
   ],
-
-  "prefix": "ydcclib_stay_focused",
 
   "compatibility": {
     "php-version-min": "7.4",
