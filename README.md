@@ -3,8 +3,9 @@
 
 # Stay Focused!
 Version 1.0.1   
-June 2024  Pete Charpentier and the REDCap@Yale team  
-https://portal.redcap.yale.edu
+June 2024  
+Pete Charpentier and the REDCap@Yale team  
+https://portal.redcap.yale.edu  
 redcap@yale.edu
 
 ### What does it do?
