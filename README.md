@@ -1,3 +1,6 @@
+![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/codeql-analysis.yml/badge.svg)
+![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/sonarcloud.yml/badge.svg)
+
 # Stay Focused!
 Version 1.0.1   
 June 2024  Pete Charpentier and the REDCap@Yale team  
