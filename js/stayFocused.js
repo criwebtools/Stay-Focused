@@ -1,43 +1,9 @@
 (function(){
 
-   // ECMAScript 5 or higher
-
-   let lastFieldThatHadFocus = null;
    const SAVEANDSTAYCOOKIENAME = "__stayFocused__";
    const COOKIEEXPIRATION = 120; // seconds
-
-   function reFocus(){
-
-      /*
-
-       Brutal but effective:
-
-       After reload from Save & Stay, the 'required fields missing' modal dialog
-       may render into div#reqPopup. This is not useful in the Save & Stay context.
-
-       Therefore, we prevent the modal dialog from rendering by
-       blowing away its parent element(!)
-
-       */
-
-      $('div#reqPopup').remove();
-
-      // scroll to the target field's parent element
-      $([document.documentElement, document.body]).animate({
-         scrollTop: $('tr#' + lastFieldThatHadFocus + '-tr').offset().top
-      }, 500);
-
-      // mark the where-we-left-off boundary
-      $('tr#' + lastFieldThatHadFocus + '-tr').css('border-bottom', '4px solid dodgerblue');
-
-   }
-
-   function setLastFieldThatHadFocus( element ){
-
-      lastFieldThatHadFocus = element.closest('tr[sq_id]').attr('sq_id');
-
-      console.log('setLastFieldThatHadFocus ', lastFieldThatHadFocus);
-   }
+   const SAVESTAYBUTTONID = 'submit-btn-savecontinue';
+   let lastFieldThatHadFocus = {elementType: null, attribute: null, value: null, scrollY: null};
 
    function addListeners() {
 
@@ -59,15 +25,22 @@
       /*
        * clickable elements:
        * - any button ('today', 'now' etc)
+       * - slider elements
        * - any jQuery datepicker (calendar / time)
        * - file upload links (includes econsents)
        * --> note that the reset link is excluded. Only nonblank data entry qualifies.
        */
 
-      //$('tr[sq_id] div.ui-slider, tr[sq_id] span.ui-slider-handle, tr[sq_id] button, tr[sq_id] a.fileuploadlink, tr[sq_id] img.ui-datepicker-trigger').on('click', function () {
-      $nonReservedRows.find('div.ui-slider, span.ui-slider-handle, button, a.fileuploadlink, img.ui-datepicker-trigger').on('click', function () {
+      $nonReservedRows.find('a.fileuploadlink').on('click', function () {
 
-         setLastFieldThatHadFocus( $(this) );
+         // the parent div
+         setLastFieldThatHadFocus( $(this).closest('div') );
+      });
+
+      $nonReservedRows.find('button, img.ui-datepicker-trigger').on('click', function () {
+
+         // the input field associated with the button/image
+         setLastFieldThatHadFocus( $(this).closest('td').find('input'), 'name' );
       });
 
       /*
@@ -77,20 +50,30 @@
        * - any <select>
        * --> only nonblank data entry is recognized
        */
-
-      //$('tr[sq_id] input:not([readonly]), tr[sq_id] textarea, tr[sq_id] select').on('change', function () {
-      $nonReservedRows.find('input:not([readonly]), textarea, select').on('change', function () {
+      $nonReservedRows.find('input, textarea, select').on('change', function () {
 
          if ( $(this).val() ) {
-            setLastFieldThatHadFocus($(this));
+
+            setLastFieldThatHadFocus( $(this), 'name' );
          }
       });
 
       /*
-       * save the lastFieldThatHadFocus field name to cookie when either 'Save & Stay' button is clicked.
-       * --> note that the same element id is used for both 'save & stay' elements
+       * sliders are a bit of a challenge
+       *
        */
-      $('a#submit-btn-savecontinue, button#submit-btn-savecontinue').on('click', function() {
+      $nonReservedRows.find('table.sldrparent[role=presentation] span.ui-slider-handle').on('click', function () {
+
+         // the parent div
+         setLastFieldThatHadFocus( $(this).closest('div') );
+      });
+
+      /*
+       * save the lastFieldThatHadFocus field name to cookie when either 'Save & Stay' button is clicked.
+       * --> note that the same element id is used for both 'save & stay' buttons
+       * also: why the 'a' tag? Maybe that was a thing 5 years ago when I wrote the code?
+       */
+      $(`a#${SAVESTAYBUTTONID}, button#${SAVESTAYBUTTONID}`).on('click', function() {
 
          /*
           * Save the last field that had focus to the localStorage 'cookie'
@@ -99,15 +82,55 @@
       });
    }
 
+   function setLastFieldThatHadFocus( $element, attribute ) {
+
+      attribute = attribute || '';
+
+      const elementType = $element.prop('tagName').toLowerCase();
+      const scrollY = window.scrollY;
+      let value = null;
+
+      if ( !attribute) {
+         if ( $element.attr('id') ) {
+            attribute = 'id';
+            value = $element.attr('id');
+         } 
+         else if ( $element.attr('name') ) {
+            attribute = 'name';
+            value = $element.attr('name');
+         }
+      }
+
+      if ( !attribute ) return;
+
+      value = $element.attr(attribute);
+
+      if ( !value ) return;
+
+      lastFieldThatHadFocus = {elementType: elementType, attribute: attribute, value: value, scrollY: scrollY};
+
+      console.log('setLastFieldThatHadFocus ', lastFieldThatHadFocus);
+   }
+
    /*
-    * LOCAL STORAGE FUNCTIONS
+    * LOCAL STORAGE 'COOKIE' FUNCTIONS
     * localStorage is used to preserve the name last field that had focus, in a timestamped object that emulates a cookie.
     * It is set by save&stay, and picked up after the page reload.
     */
-
    function  saveLastFieldThatHadFocus() {
 
-      let object = {value: lastFieldThatHadFocus, timestamp: new Date().getTime()}
+      console.log('saveLastFieldThatHadFocus: ', lastFieldThatHadFocus);
+
+      if (!lastFieldThatHadFocus.attribute || !lastFieldThatHadFocus.value) return;
+
+      let object = {
+         elementType: lastFieldThatHadFocus.elementType,
+         attribute: lastFieldThatHadFocus.attribute, 
+         value: lastFieldThatHadFocus.value, 
+         timestamp: new Date().getTime(),
+         scrollY: lastFieldThatHadFocus.scrollY
+      };
+
       localStorage.setItem(SAVEANDSTAYCOOKIENAME, JSON.stringify(object));
    }
 
@@ -118,43 +141,42 @@
    function getLastFieldThatHadFocus () {
 
       try {
-          let json = localStorage.getItem(SAVEANDSTAYCOOKIENAME);
-  
-          // Return null if no saved item
-          if (!json) return null;
-  
-          let object;
-          try {
-              object = JSON.parse(json);
-          } catch (e) {
-              console.error('Error parsing JSON:', e);
-              return null;
-          }
-  
-          let setTimestamp = object.timestamp;
-          if (!setTimestamp) {
-              console.error('No timestamp found in the saved object');
-              return null;
-          }
-  
-          let nowTimestamp = new Date().getTime();
-          let diffSeconds = (nowTimestamp - setTimestamp) / 1000;
-  
-          if (isNaN(diffSeconds)) {
-              console.error('Invalid timestamp difference');
-              return null;
-          }
-  
-          console.log('getLastFieldThatHadFocus :', new Date(setTimestamp).toString(), new Date(nowTimestamp).toString(), diffSeconds);
-  
-          if (diffSeconds > COOKIEEXPIRATION) return null;
-  
-          return object.value;
+         let json = localStorage.getItem(SAVEANDSTAYCOOKIENAME);
+
+         // Return null if no saved item
+         if (!json) return null;
+
+         let object;
+         try {
+            object = JSON.parse(json);
+         } catch (e) {
+            console.error('Error parsing JSON:', e);
+            return null;
+         }
+
+         let thenTimestamp = parseInt(object.timestamp);
+         if (!thenTimestamp) {
+            console.error('No timestamp found in the saved object');
+            return null;
+         }
+
+         let nowTimestamp = new Date().getTime();
+         let diffSeconds = (nowTimestamp - thenTimestamp) / 1000;
+
+         if (isNaN(diffSeconds)) {
+            console.error('Invalid timestamp difference');
+            return null;
+         }
+
+         // stale cookies shouldn't happen, but life finds a way
+         if (diffSeconds > COOKIEEXPIRATION) return null;
+
+         return object;
 
       } catch (e) {
 
-          console.error('Error in getLastFieldThatHadFocus :', e);
-          return null;
+         console.error('Error in getLastFieldThatHadFocus :', e);
+         return null;
       }
    }
 
@@ -162,8 +184,53 @@
       
       localStorage.removeItem(SAVEANDSTAYCOOKIENAME);
    }
+
+   function isElementInViewport($el) {
+      const rect = $el[0].getBoundingClientRect();
+      return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || $(window).height()) &&
+      rect.right <= (window.innerWidth || $(window).width())
+      );
+   }
+
+
+   function getFocused() {
+      /*
+
+       Brutal but effective:
+
+       After reload from Save & Stay, the 'required fields missing' modal dialog
+       may render into div#reqPopup. This is not useful in the Save & Stay context.
+
+       Therefore, we prevent the modal dialog from rendering by
+       blowing away its parent element(!)
+
+       */
+
+      $('div#reqPopup').remove();
+
+      const $lastFieldItem = $(`${lastFieldThatHadFocus.elementType}[${lastFieldThatHadFocus.attribute}="${lastFieldThatHadFocus.value}"]`);
+ 
+      const $lastFieldItemContainer = ( $lastFieldItem.hasClass('slider') ) ? $lastFieldItem.closest('table') : $lastFieldItem.closest('td');
+
+      const submitButtonColor = $(`#${SAVESTAYBUTTONID}`).css('background-color');
+
+      console.log('getFocused :', lastFieldThatHadFocus, $lastFieldItem, $lastFieldItemContainer, submitButtonColor);
+
+      $lastFieldItemContainer.css('border', `4px solid ${submitButtonColor}`);
+
+      window.scrollTo({behavior: 'instant', top: lastFieldThatHadFocus.scrollY, 'left': 0});
+
+      // we still need to check if the element is in the viewport, and if not to scroll it into view
+      if ( !isElementInViewport($lastFieldItemContainer) ) {
+
+         $lastFieldItemContainer[0].scrollIntoView({behavior: 'instant', block: 'center', inline: 'nearest'});
+      }
+   }
   
-   $( document ).ready(function(){
+   $( function(){
 
       // add listeners to form fields and the Save & Stay buttons
       
@@ -173,13 +240,21 @@
 
       lastFieldThatHadFocus = getLastFieldThatHadFocus()
 
+      console.log('onload: lastFieldThatHadFocus=', lastFieldThatHadFocus);
+
       if ( lastFieldThatHadFocus ) {
 
          // remove the 'cookie'
+
          removeLastFieldThatHadFocus();
 
-         // scroll and mark the boundary
-         reFocus();
+         /*
+          * SCROLL AND MARK BOUNDARY
+          * We need to wait for the page to render before scrolling to the field.
+          * We also have to wait a bit to skip past a 10ms delay in setting the focus on the first field.
+          * ( DataEntry.js approx line 50 )
+          */
+         setTimeout(getFocused, 50);
       }
    });
 
