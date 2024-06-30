@@ -222,7 +222,7 @@
       const submitButtonColor = $(`#${SAVESTAYBUTTONID}`).css('background-color');
 
       $lastElementContainer
-         .title('StayFocused: This is the last field you were working on.')
+         .prop('title', 'StayFocused: This is the last field you were working on.')
          .css({
          'border-right': `3px solid ${submitButtonColor}`,
          'border-bottom': `3px solid ${submitButtonColor}`
