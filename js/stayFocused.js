@@ -3,7 +3,7 @@
    const SAVEANDSTAYCOOKIENAME = "__stayFocused__";
    const COOKIEEXPIRATION = 120; // seconds
    const SAVESTAYBUTTONID = 'submit-btn-savecontinue';
-   let lastFieldThatHadFocus = {elementType: null, attribute: null, value: null, scrollY: null};
+   let lastElementThatHadFocus = {elementType: null, attribute: null, value: null, scrollY: null};
 
    function addListeners() {
 
@@ -34,13 +34,13 @@
       $nonReservedRows.find('a.fileuploadlink').on('click', function () {
 
          // the parent div
-         setLastFieldThatHadFocus( $(this).closest('div') );
+         setlastElementThatHadFocus( $(this).closest('div') );
       });
 
       $nonReservedRows.find('button, img.ui-datepicker-trigger').on('click', function () {
 
          // the input field associated with the button/image
-         setLastFieldThatHadFocus( $(this).closest('td').find('input'), 'name' );
+         setlastElementThatHadFocus( $(this).closest('td').find('input'), 'name' );
       });
 
       /*
@@ -54,7 +54,7 @@
 
          if ( $(this).val() ) {
 
-            setLastFieldThatHadFocus( $(this), 'name' );
+            setlastElementThatHadFocus( $(this), 'name' );
          }
       });
 
@@ -65,11 +65,11 @@
       $nonReservedRows.find('table.sldrparent[role=presentation] span.ui-slider-handle').on('click', function () {
 
          // the parent div
-         setLastFieldThatHadFocus( $(this).closest('div') );
+         setlastElementThatHadFocus( $(this).closest('div') );
       });
 
       /*
-       * save the lastFieldThatHadFocus field name to cookie when either 'Save & Stay' button is clicked.
+       * save the lastElementThatHadFocus field name to cookie when either 'Save & Stay' button is clicked.
        * --> note that the same element id is used for both 'save & stay' buttons
        * also: why the 'a' tag? Maybe that was a thing 5 years ago when I wrote the code?
        */
@@ -78,11 +78,11 @@
          /*
           * Save the last field that had focus to the localStorage 'cookie'
           */
-          saveLastFieldThatHadFocus();
+          savelastElementThatHadFocus();
       });
    }
 
-   function setLastFieldThatHadFocus( $element, attribute ) {
+   function setlastElementThatHadFocus( $element, attribute ) {
 
       attribute = attribute || '';
 
@@ -107,9 +107,9 @@
 
       if ( !value ) return;
 
-      lastFieldThatHadFocus = {elementType: elementType, attribute: attribute, value: value, scrollY: scrollY};
+      lastElementThatHadFocus = {elementType: elementType, attribute: attribute, value: value, scrollY: scrollY};
 
-      console.log('setLastFieldThatHadFocus ', lastFieldThatHadFocus);
+      console.log('setlastElementThatHadFocus ', lastElementThatHadFocus);
    }
 
    /*
@@ -117,18 +117,18 @@
     * localStorage is used to preserve the name last field that had focus, in a timestamped object that emulates a cookie.
     * It is set by save&stay, and picked up after the page reload.
     */
-   function  saveLastFieldThatHadFocus() {
+   function  savelastElementThatHadFocus() {
 
-      console.log('saveLastFieldThatHadFocus: ', lastFieldThatHadFocus);
+      console.log('savelastElementThatHadFocus: ', lastElementThatHadFocus);
 
-      if (!lastFieldThatHadFocus.attribute || !lastFieldThatHadFocus.value) return;
+      if (!lastElementThatHadFocus.attribute || !lastElementThatHadFocus.value) return;
 
       let object = {
-         elementType: lastFieldThatHadFocus.elementType,
-         attribute: lastFieldThatHadFocus.attribute, 
-         value: lastFieldThatHadFocus.value, 
+         elementType: lastElementThatHadFocus.elementType,
+         attribute: lastElementThatHadFocus.attribute, 
+         value: lastElementThatHadFocus.value, 
          timestamp: new Date().getTime(),
-         scrollY: lastFieldThatHadFocus.scrollY
+         scrollY: lastElementThatHadFocus.scrollY
       };
 
       localStorage.setItem(SAVEANDSTAYCOOKIENAME, JSON.stringify(object));
@@ -138,7 +138,7 @@
     * Get the last field that had focus from the localStorage 'cookie'.
     * Hopefully this function will fail silently...
     */
-   function getLastFieldThatHadFocus () {
+   function getlastElementThatHadFocus () {
 
       try {
          let json = localStorage.getItem(SAVEANDSTAYCOOKIENAME);
@@ -175,12 +175,12 @@
 
       } catch (e) {
 
-         console.error('Error in getLastFieldThatHadFocus :', e);
+         console.error('Error in getlastElementThatHadFocus :', e);
          return null;
       }
    }
 
-   function removeLastFieldThatHadFocus() {
+   function removelastElementThatHadFocus() {
       
       localStorage.removeItem(SAVEANDSTAYCOOKIENAME);
    }
@@ -211,17 +211,17 @@
 
       $('div#reqPopup').remove();
 
-      const $lastFieldItem = $(`${lastFieldThatHadFocus.elementType}[${lastFieldThatHadFocus.attribute}="${lastFieldThatHadFocus.value}"]`);
+      const $lastFieldItem = $(`${lastElementThatHadFocus.elementType}[${lastElementThatHadFocus.attribute}="${lastElementThatHadFocus.value}"]`);
  
       const $lastFieldItemContainer = ( $lastFieldItem.hasClass('slider') ) ? $lastFieldItem.closest('table') : $lastFieldItem.closest('td');
 
       const submitButtonColor = $(`#${SAVESTAYBUTTONID}`).css('background-color');
 
-      console.log('getFocused :', lastFieldThatHadFocus, $lastFieldItem, $lastFieldItemContainer, submitButtonColor);
+      console.log('getFocused :', lastElementThatHadFocus, $lastFieldItem, $lastFieldItemContainer, submitButtonColor);
 
-      $lastFieldItemContainer.css('border', `4px solid ${submitButtonColor}`);
+      $lastFieldItemContainer.css('border', `2px solid ${submitButtonColor}`);
 
-      window.scrollTo({behavior: 'instant', top: lastFieldThatHadFocus.scrollY, 'left': 0});
+      window.scrollTo({behavior: 'instant', top: lastElementThatHadFocus.scrollY, 'left': 0});
 
       // we still need to check if the element is in the viewport, and if not to scroll it into view
       if ( !isElementInViewport($lastFieldItemContainer) ) {
@@ -238,15 +238,15 @@
 
       // did Save & Stay leave a cookie for us?
 
-      lastFieldThatHadFocus = getLastFieldThatHadFocus()
+      lastElementThatHadFocus = getlastElementThatHadFocus()
 
-      console.log('onload: lastFieldThatHadFocus=', lastFieldThatHadFocus);
+      console.log('onload: lastElementThatHadFocus=', lastElementThatHadFocus);
 
-      if ( lastFieldThatHadFocus ) {
+      if ( lastElementThatHadFocus ) {
 
          // remove the 'cookie'
 
-         removeLastFieldThatHadFocus();
+         removelastElementThatHadFocus();
 
          /*
           * SCROLL AND MARK BOUNDARY
