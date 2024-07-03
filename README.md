@@ -38,8 +38,8 @@ to the same location where he left off, and identifies the last data entered wit
 ### How it works
 Stay Focused! works by detecting non-blank data entry and clicks on special links like file upload and econsent, and remembering enough information about the last field entered to identify it after reload. The current window scroll position is also remembered, so that the window can scroll to the same location after reload.
 When either the bottom or the "floating" **Save & Stay** button is clicked, Stay Focused! Saves information about the last field entered or updated into a "localStorage" item, which is a Javascript data storage resource that persists between browser sessions. 
-After the page is reloaded the properties of the last field is retrieved from localStorage, the form is scrolled to the proper
-location, and the data entry boundary is marked with a border having the same blue color as the Save&Stay button.
+After the page is reloaded the properties of the last field are retrieved from localStorage, the form is scrolled to the proper
+location, and the data entry boundary is marked with a partial border having the same blue color as the Save&Stay button.
 
 > PLEASE NOTE  
 > Stay Focused! makes certain assumptions about the REDCap data entry form user interface, which may change over time. There is a possibility that Stay Focused! and REDCap will drift apart at some point, due to changes in the REDCap UI. If Stay Focused! is not working for you, please get in touch with us at redcap@yale.edu. This version of Stay Focused! was tested on REDCap version 14.0.31 on July 28, 2024.
