@@ -3,7 +3,7 @@
 
   "namespace": "Yale\\StayFocused",
 
-  "description": "Modifies REDCap behavior after Save & Stay clicked: (1) restores the data entry form to the location where you left off; (2) marks the last field saved; (3) suppresses the post-save 'required fields missing' popup dialog.",
+  "description": "Modifies REDCap behavior after Save & Stay clicked: (1) restores the data entry form to the location where you left off; (2) marks the last field saved; (3) suppresses the post-save 'required fields missing' popup dialog. NOTE: This version fixes a fatal install bug on v1.0.1",
 
   "documentation": "https://criwebtools.github.io/Stay-Focused/",
 
