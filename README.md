@@ -38,9 +38,17 @@ to the same location where he left off, and identifies the last data entered wit
 ### How it works
 Stay Focused! works by detecting non-blank data entry and clicks on special links like file upload and econsent, and remembering enough information about the last field entered to identify it after reload. The current window scroll position is also remembered, so that the window can scroll to the same location after reload.
 When either the bottom or the "floating" **Save & Stay** button is clicked, Stay Focused! Saves information about the last field entered or updated into a "localStorage" item, which is a Javascript data storage resource that persists between browser sessions. 
-After the page is reloaded the properties of the last field are retrieved from localStorage, the form is scrolled to the proper
-location, and the data entry boundary is marked with a partial border having the same blue color as the Save&Stay button.
+After the page is reloaded the properties of the last field is retrieved from localStorage, the form is scrolled to the proper
+location, and the data entry boundary is marked with a border having the same blue color as the Save&Stay button.
 
 > PLEASE NOTE  
-> Stay Focused! makes certain assumptions about the REDCap data entry form user interface, which may change over time. There is a possibility that Stay Focused! and REDCap will drift apart at some point, due to changes in the REDCap UI. If Stay Focused! is not working for you, please get in touch with us at redcap@yale.edu. This version of Stay Focused! was tested on REDCap version 14.0.31 on July 28, 2024.
+> Stay Focused! makes certain assumptions about the REDCap data entry form user interface, which may change over time. There is a possibility that Stay Focused! and REDCap will drift apart at some point, due to changes in the REDCap UI. If Stay Focused! is not working for you, please get in touch with us at redcap@yale.edu. This version of Stay Focused! was tested on REDCap version 14.4.1 and LTS 14.0.32 on July 5, 2024.
+
+## Change Log
+
+| version | date | description |  
+| ------- | ---- | ----------- |
+| 1.0.2   | 2024-07-05 | Fixes fatal error on install caused by mismatch in config.json between class name and namespace. |
+| 1.0.1 | 2024-06-27 | updated for compatibility with current REDCap UI (LTS 14.0.32, 14.4.1) |
+
 

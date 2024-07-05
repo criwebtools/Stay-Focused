@@ -134,7 +134,11 @@
     */
    function  saveLastElementCookie() {
 
-      if (!lastElement.attribute || !lastElement.value) return;
+      // could be null if no field was updated
+      if (!lastElement) return;
+
+      // could be empty... maybe
+      if (!lastElement.elementType || !lastElement.attribute || !lastElement.value) return;
 
       let object = {
          elementType: lastElement.elementType,

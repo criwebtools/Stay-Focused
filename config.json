@@ -1,7 +1,7 @@
 {
   "name": "Stay focused!",
 
-  "namespace": "Yale\\stayFocused",
+  "namespace": "Yale\\StayFocused",
 
   "description": "Modifies REDCap behavior after Save & Stay clicked: (1) restores the data entry form to the location where you left off; (2) marks the last field saved; (3) suppresses the post-save 'required fields missing' popup dialog.",
 
@@ -20,8 +20,12 @@
 
   "versions": [
     {
-      "1.0.1": "June 27, 2024 - major bug fix, minor refactoring",
-      "changelog": "Fixes bug where the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
+      "1.0.2": "July 5, 2024 - major bug fix",
+      "changelog": "Fixes fatal error on install caused by mismatch between class name and namespace."
+    },
+    {
+      "1.0.1": "June 27, 2024 - updated for compatibility with REDCap 14.4.1 and LTS 14.0.32",
+      "changelog": "Fixes bug in current UI where the 'stay&save' button was considered a data entry field. Uses localStorage instead of cookies to store last field entered. "
     },
     {
       "1.0.0": "Oct 8, 2020 - initial distribution"
