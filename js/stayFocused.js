@@ -245,6 +245,11 @@
 
          $lastElementContainer[0].scrollIntoView({behavior: 'instant', block: 'center', inline: 'nearest'});
       }
+
+      /**
+       * one-time only... we don't want to keep the lastElement in memory
+       */
+      lastElement = null;
    }
    
    function isElementInViewport($el) {
