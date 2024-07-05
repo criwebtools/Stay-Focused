@@ -2,9 +2,9 @@
 ![example workflow](https://github.com/criwebtools/Stay-Focused/actions/workflows/sonarcloud.yml/badge.svg)
 
 # Stay Focused!
-Version 1.0.1   
-June 2024  
-Pete Charpentier and the REDCap@Yale team  
+Version 1.0.2   
+July 2024  
+Pete Charpentier  
 https://portal.redcap.yale.edu  
 redcap@yale.edu
 
