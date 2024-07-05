@@ -1,6 +1,6 @@
 <?php
 
-namespace Yale\stayFocused;
+namespace Yale\StayFocused;
 
 class StayFocused extends \ExternalModules\AbstractExternalModule {
 
