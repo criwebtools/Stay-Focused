@@ -253,8 +253,8 @@ y3sf.getFocused = function() {
    $lastElementContainer
       .prop('title', 'StayFocused: This is the last field you were working on.')
       .css({
-      'border-right': `3px solid ${submitButtonColor}`,
-      'border-bottom': `3px solid ${submitButtonColor}`
+      'border-right': `5px solid ${submitButtonColor}`,
+      'border-bottom': `5px solid ${submitButtonColor}`
    });
 
    window.scrollTo({behavior: 'instant', top: y3sf.lastElement.scrollY, 'left': 0});
