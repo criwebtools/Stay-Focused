@@ -20,6 +20,10 @@
 
   "versions": [
     {
+      "1.0.3": "July 10, 2024 - minor bug fix",
+      "changelog": "Ensures that the EM will function after a window resize."
+    },
+    {
       "1.0.2": "July 5, 2024 - major bug fix",
       "changelog": "Fixes fatal error on install caused by mismatch between class name and namespace."
     },
