@@ -44,8 +44,6 @@ y3sf.setLastElement = function( $element, attribute ) {
 
    attribute = attribute || '';
 
-   //console.log('setLastElement:', $element, attribute);
-
    const elementType = $element.prop('tagName').toLowerCase();
    const scrollY = window.scrollY;
    let elementKey = null;
@@ -53,11 +51,9 @@ y3sf.setLastElement = function( $element, attribute ) {
    if ( !attribute) {
       if ( $element.attr('id') ) {
          attribute = 'id';
-         //elementKey = $element.attr('id');
       } 
       else if ( $element.attr('name') ) {
          attribute = 'name';
-         //elementKey = $element.attr('name');
       }
    }
 
@@ -68,8 +64,6 @@ y3sf.setLastElement = function( $element, attribute ) {
    if ( !elementKey ) return; 
 
    y3sf.lastElement = {elementType: elementType, attribute: attribute, elementKey: elementKey, scrollY: scrollY};
-
-   //console.log('Last element:', y3sf.lastElement);
 }
 
 y3sf.addREDCapFieldListeners = function() {
@@ -295,8 +289,6 @@ y3sf.closeTheRequiredFieldsDialog = function( maxInterval ) {
       
                   clearInterval(intervalId);
 
-                  //console.log('closeTheRequiredFieldsDialog: resolved at attempt #' + attempts);
-
                   resolve(true);
                } else if (attempts >= maxAttempts) {
       
@@ -343,7 +335,7 @@ y3sf.getFocused = function() {
    /**
     * We know the cookie was saved. We also need to know if any data were entered prior to Save&Stay.
     */
-   const dataEntry = ( y3sf.lastElement && y3sf.lastElement.elementType && y3sf.lastElement.attribute && y3sf.lastElement.elementKey ) ? true : false ;
+   const dataEntry = ( y3sf.lastElement && y3sf.lastElement.elementType && y3sf.lastElement.attribute && y3sf.lastElement.elementKey );
 
    // scroll to where we left off
    window.scrollTo({behavior: 'instant', top: y3sf.lastElement.scrollY, 'left': 0});
@@ -420,8 +412,6 @@ y3sf.isElementInViewport = function($el) {
 $( window ).on('resize', y3sf.debounce( function(){ y3sf.addSaveStayButtonListeners() }, 500 ));
 
 $( function(){
-
-   //console.log('StayFocused: initialized with reqPopup:', $('#reqPopup').length);
 
    // add listeners to form fields and the Save & Stay buttons
    y3sf.addREDCapFieldListeners();
