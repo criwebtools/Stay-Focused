@@ -20,6 +20,10 @@
 
   "versions": [
     {
+      "1.0.4": "July 14, 2024 - refactoring",
+      "changelog": "Refactoring for code clarity, or at least less code murkiness."
+    },
+    {
       "1.0.3": "July 10, 2024 - minor bug fix",
       "changelog": "Ensures that the EM will function after a window resize."
     },
@@ -35,6 +39,26 @@
       "1.0.0": "Oct 8, 2020 - initial distribution"
     }
   ],
+    
+  "project-settings": [
+    {
+        "key": "y3sf-hide-status-message-header",
+        "name": "<h5>Suppress the Stay focused! status message</h5>",
+        "type": "descriptive"
+    },
+    {
+      "key": "y3sf-hide-status-message-description",
+      "name": "<div style='color: darkslategrey; font-weight: 600'><p>Normally Stay focused! will display a status message at the top of the form editor.</p><p>As described in the documentation, Stay focused! prevents the 'required fields' dialog popup from displaying after an interim save, so as to not interrupt data collection workflow. However the count of the fields reported is added to the Stay focused! status message.</p><p>If you would like to prevent the Stay focused! status message from displaying, click the checkbox below.</p></div>",
+      "type": "descriptive"
+    },
+    {
+        "key": "y3sf-hide-status-message",
+        "name": "Suppress the Stay focused! status message",
+        "required": false,
+        "type": "checkbox"
+    }
+  ],
+
 
   "compatibility": {
     "php-version-min": "7.4",
